@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BossController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\SalesController;
@@ -61,6 +62,9 @@ Route::get('/not', [SalesController::class, 'nota']);
 Route::get('/el', [SalesController::class, 'edit_order']);
 Route::post('/sl-store', [SalesController::class, 'store_tambah']);
 route::get('getDetail/{id}', [SalesController::class, 'getDetail'])->name('getDetail');
+
+// route Boss
+Route::resource('/boss', BossController::class);
 
 // route create satuan
 Route::post('/satuan', [CategoryController::class, 'satuan']);

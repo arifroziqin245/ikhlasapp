@@ -73,7 +73,7 @@ class SalesController extends Controller
 
         return view('sales.nota',[
             'title' => 'List Order',
-            'order' => $data,
+            'order' => Order::where('status_order', 1)->get(),
             // 'order' => DB::table('orders')->select('*')->groupBy('nama_cust')->get()
             // 'detail' => DB::table('detil_orders')->select('*')->groupBy('id_order')->get()
         ]);

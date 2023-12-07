@@ -6,30 +6,23 @@
             <!-- Navigation Menu-->
             <ul class="navigation-menu list-unstyled text-center">
 
-                <li class="has-submenu">
-                    <a href="/dashboard">
-                        <i class="mdi mdi-monitor"></i>
-                        Dashboard
-                    </a>
-                </li>
-
-                <li class="has-submenu">
+                <li class="has-submenu  {{ ($active === "inventory") ? 'active' : '' }}">
                     <a href="/inventory">
                         <i class="mdi mdi-table-large"></i>
                         Data Barang
                     </a>
                 </li>
 
-                <li class="has-submenu">
+                <li class="has-submenu {{ ($active === "change") ? 'active' : '' }}">
                     <a href="/change">
                         <i class="mdi mdi-timetable"></i>
                         Data Perubahan
                     </a>
                 </li>
                 
-                <li class="has-submenu">
+                <li class="has-submenu {{ ($active === "order") ? 'active' : '' }}">
                     <a href="/order">
-                        <i class="mdi mdi mdi-playlist-edit"></i>
+                        <i class="mdi mdi mdi-playlist-edit "></i>
                        Order List
                     </a>
                 </li>

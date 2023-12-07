@@ -14,4 +14,8 @@ class Order extends Model
     public function customers(){
         $this->belongsTo(Customer::class);
     }
+
+    public function detil_order(){
+        return $this->hasMany('App\Models\DetilOrder', 'id');
+    }
 }

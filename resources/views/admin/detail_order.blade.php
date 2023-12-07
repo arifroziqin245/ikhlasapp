@@ -2,8 +2,8 @@
 @section('container')
     <div class="card">
         <div class="card-body">
-            <h4 class="mt-0 header-title">Edit Table With Button</h4>
-            <p class="text-muted mb-4 font-13">Add toolbar column with edit and delete buttons.</p>
+            <h4 class="mt-0 header-title">Detail Order - {{ $order->nama_custs }}</h4>
+            <p class="text-muted mb-4 font-13">Kemas pesanan dengan teliti !!</p>
             {{-- <form id="formceklist"> --}}
             <form action="/admin/aksi_order/{{ $order->id }}" method="post">
                 @csrf
@@ -18,7 +18,7 @@
                     <tbody>
                         @foreach ($detail_order as $item)
                             <tr>
-                                <td>{{ $item->jumlah }}</td>
+                                <td>{{ $item->jumlah }} {{ $item->satuan }}</td>
                                 <td>{{ $item->nama_barang }}</td>
                                 <td>
                                     <div class="btn-group">

@@ -10,14 +10,43 @@ use App\Http\Controllers\categoryController;
 use App\Models\DetilOrder;
 use App\Models\History;
 use App\Models\Order;
+use Illuminate\Foundation\Console\ViewCacheCommand;
 use Illuminate\Support\Facades\Validator;
 
 class InventoryController extends Controller
 {
     public function index()
     {
-        return view('admin.inventory', [
-            'title' => "Inventory",
+        if (auth()->user()->role == 2) {
+            return redirect('/sales');
+        }elseif(auth()->user()->role == 3){
+            return redirect('/boss');
+        }else{
+            return view('admin.inventory', [
+                'active' => 'inventory',
+                'title' => "Inventory",
+                'inventory' => Inventory::orderBy('nama_barang', 'ASC')->get(),
+                'category' => Category::orderBy('nama_category', 'ASC')->get(),
+                'satuan' => Satuan::all()
+            ]);
+        }
+    }
+    public function change(){
+        $today = date('Y-m-d', strtotime('+1 day'));
+        $to = date('Y-m-d', strtotime('-30 days'));
+        $limit = History::orderBy('created_at','DESC')->whereBetween('created_at', [$to, $today])->orderBy('created_at', 'desc')->get();
+        return view('admin/change',[
+            'active' => "change",
+            "title" => "Data Perubahan",
+            'history' =>  $limit,
+            'category' => Category::all()
+        ]);
+    }
+
+    public function invenBoss(){
+        return view('bos.inventory', [
+            'active' => 'inventoryb',
+            'title' => "Inventorybgh",
             'inventory' => Inventory::orderBy('nama_barang', 'ASC')->get(),
             'category' => Category::orderBy('nama_category', 'ASC')->get(),
             'satuan' => Satuan::all()
@@ -26,7 +55,21 @@ class InventoryController extends Controller
 
     public function order()
     {
+        $today = date('Y-m-d', strtotime('+1 day'));
+        $to = date('Y-m-d', strtotime('-4 days'));
         return view('admin.order', [
+            'active'=>'order',
+            'title' => "Laporan Order",
+            'lok' => date('d F Y', strtotime('-1 day')),
+            'order_all' => Order::where('status_order', 1)->whereBetween('created_at', [$to, $today])->orderBy('created_at', 'desc')->get(),
+            'order' => Order::where('status_order', 0)->whereBetween('created_at', [$to, $today])->orderBy('created_at', 'desc')->get(),
+        ]);
+    }
+
+    public function orderBoss()
+    {
+        return view('bos.order', [
+            'active'=>'orderb',
             'title' => "Laporan Order",
             'order_all' => Order::where('status_order', 1)->get(),
             'order' => Order::where('status_order', 0)->get(),
@@ -36,9 +79,10 @@ class InventoryController extends Controller
     public function print($id)
     {
         return view ('admin.print', [
+            'active' => 'order',
             'title' => "Print Nota",
             'order' => Order::find($id),
-            'detail_order' => DetilOrder::where('id_order', $id)->get()
+            'detail_order' => DetilOrder::where('id_order', $id)->orderBy('created_at','desc')->get()
         ]);
     }
 
@@ -46,6 +90,8 @@ class InventoryController extends Controller
     {
         return view('admin.create',
         [
+            'active' => 'inventory',
+            'title' => "Create Inventory",
             'category' => Category::all(),
             'satuan' => Satuan::all()
         ]);
@@ -54,6 +100,7 @@ class InventoryController extends Controller
     {
         return view('admin.create',
         [
+            'active' => 'inventory',
             'category' => Category::all(),
             'satuan' => Satuan::all()
         ]);
@@ -100,7 +147,7 @@ class InventoryController extends Controller
     {
         return view('admin.detil', [
             "title" => "Detil Item",
-            "active" => 'posts',
+            'active' => 'inventory',
             "inven" => Inventory::find($id)
         ]);
     }
@@ -110,6 +157,8 @@ class InventoryController extends Controller
         $query = Inventory::findOrFail($id);
         if($query){
             return response([
+                'active' => 'inventory',
+                "title" => "Edit Inventory",
                 'status' => 200,
                 'data' => $query
             ]);
@@ -138,6 +187,9 @@ class InventoryController extends Controller
             ]);
         }else{
             $inven = Inventory::find($id);
+
+            $harga_lama = $inven->harga;
+
             $inven->nama_barang = $request->nama_barang;
             $inven->category = $request->category;
             $inven->harga = $request->harga;
@@ -146,6 +198,15 @@ class InventoryController extends Controller
             $inven->status_barang = $request->status_barang;
             $inven->harga_satuan = $request->harga / $request->isi;
             $inven->update();
+
+            History::create([
+                'nama_barang' => $request->nama_barang,
+                'harga_lama' => $harga_lama,
+                'harga_baru' => $request->harga,
+                'satuan' => $request->satuan,
+                'isi' => $request->isi,
+                'status' => '2'
+            ]);
 
             return response()->json([
                 'status' => 200,
@@ -173,6 +234,8 @@ class InventoryController extends Controller
 
     public function detail_order($id){
         return view('admin.detail_order', [
+            'active' => 'order',
+            "title" => "Detail Order",
             'order' => Order::find($id),
             'detail_order' => DetilOrder::where('id_order', $id)->whereNotIn('proses', [1])->get(),
         ]);
@@ -211,8 +274,16 @@ class InventoryController extends Controller
     }
     public function destroy(Inventory $inventory)
     {
-        Inventory::destroy($inventory->id);
-        return redirect('/sl')->with('success', 'Data has been deleted!');
+        History::create([
+            'nama_barang' => $inventory->nama_barang,
+            'harga_lama' => $inventory->harga,
+            'harga_baru' => $inventory->harga,
+            'satuan' => $inventory->satuan,
+            'isi' => $inventory->isi,
+            'status' => '3'
+        ]);
+        $inventory->delete();
+        return redirect('/')->with('success', 'Data has been deleted!');
     }
     
     

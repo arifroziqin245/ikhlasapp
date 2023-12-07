@@ -9,7 +9,7 @@
     <meta content="Mannatthemes" name="author" />
  
     <!-- App favicon -->
-    <link rel="shortcut icon" href="/assets/images/favicon.ico">
+    <link rel="shortcut icon" href="/assets/images/fixlogo.png">
 
     <link href="/assets/plugins/jvectormap/jquery-jvectormap-2.0.2.css" rel="stylesheet">
 
@@ -29,67 +29,19 @@
 
             <!-- LOGO -->
             <div class="topbar-left">
-                <a href="index.html" class="logo">
+                <a href="/boss" class="logo">
                     <span>
                         <img src="/assets/images/fixlogo.png" alt="logo-small" class="logo-sm">
                     </span>
                     <span>
-                        <img src="/assets/images/cah_sales.jpg" alt="logo-large" class="logo-sm">
+                        <img src="/assets/images/big-boss.png" alt="logo-small" class="logo-sm">
                     </span>
                 </a>
             </div>
 
             <ul class="list-unstyled topbar-nav float-right mb-0">
 
-                <li class="dropdown">
-                    <a class="nav-link dropdown-toggle arrow-none waves-light waves-effect" data-toggle="dropdown"
-                        href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                        <i class="mdi mdi-bell-outline nav-icon"></i>
-                        <span class="badge badge-danger badge-pill noti-icon-badge">2</span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right dropdown-lg">
-                        <!-- item-->
-                        <h6 class="dropdown-item-text">
-                            Notifications (258)
-                        </h6>
-                        <div class="slimscroll notification-list">
-                            <!-- item-->
-                            <a href="javascript:void(0);" class="dropdown-item notify-item active">
-                                <div class="notify-icon bg-success"><i class="mdi mdi-cart-outline"></i></div>
-                                <p class="notify-details">Your order is placed<small class="text-muted">Dummy text of
-                                        the printing and typesetting industry.</small></p>
-                            </a>
-                            <!-- item-->
-                            <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                <div class="notify-icon bg-warning"><i class="mdi mdi-message"></i></div>
-                                <p class="notify-details">New Message received<small class="text-muted">You have 87
-                                        unread messages</small></p>
-                            </a>
-                            <!-- item-->
-                            <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                <div class="notify-icon bg-info"><i class="mdi mdi-glass-cocktail"></i></div>
-                                <p class="notify-details">Your item is shipped<small class="text-muted">It is a long
-                                        established fact that a reader will</small></p>
-                            </a>
-                            <!-- item-->
-                            <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                <div class="notify-icon bg-primary"><i class="mdi mdi-cart-outline"></i></div>
-                                <p class="notify-details">Your order is placed<small class="text-muted">Dummy text of
-                                        the printing and typesetting industry.</small></p>
-                            </a>
-                            <!-- item-->
-                            <a href="javascript:void(0);" class="dropdown-item notify-item">
-                                <div class="notify-icon bg-danger"><i class="mdi mdi-message"></i></div>
-                                <p class="notify-details">New Message received<small class="text-muted">You have 87
-                                        unread messages</small></p>
-                            </a>
-                        </div>
-                        <!-- All-->
-                        <a href="javascript:void(0);" class="dropdown-item text-center text-primary">
-                            View all <i class="fi-arrow-right"></i>
-                        </a>
-                    </div>
-                </li>
+                
 
                 <li class="dropdown">
                     <a class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown"
@@ -98,17 +50,11 @@
                         <span class="ml-1 nav-user-name hidden-sm"> <i class="mdi mdi-chevron-down"></i> </span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
-                        <a class="dropdown-item" href="#"><i class="dripicons-user text-muted mr-2"></i>
-                            Profile</a>
-                        <a class="dropdown-item" href="#"><i class="dripicons-wallet text-muted mr-2"></i> My
-                            Wallet</a>
-                        <a class="dropdown-item" href="#"><i class="dripicons-gear text-muted mr-2"></i>
-                            Settings</a>
-                        <a class="dropdown-item" href="#"><i class="dripicons-lock text-muted mr-2"></i> Lock
-                            screen</a>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#"><i class="dripicons-exit text-muted mr-2"></i>
-                            Logout</a>
+                        <form action="/logout" method="POST">
+                            @csrf
+                            <button type="submit" class="dropdown-item" href="#"><i class="dripicons-exit text-muted mr-2"></i>Logout</button>
+                        </form>
                     </div>
                 </li>
                 <li class="menu-item">
@@ -138,14 +84,20 @@
                 <div class="media-body">
                     <h5 class="text-light">Mr. BOSS Ikhlas </h5>
                     <ul class="list-unstyled list-inline mb-0 mt-2">
-                        <li class="list-inline-item">
-                            <a href="#" class=""><i class="mdi mdi-account text-light"></i></a>
+                        <li class="list-inline-item {{ ($active === "dashboard") ? 'active' : '' }}">
+                            <a href="/boss" class=""><i class="mdi mdi-monitor text-white"></i></a>
                         </li>
                         <li class="list-inline-item">
-                            <a href="#" class=""><i class="mdi mdi-settings text-light"></i></a>
+                            <a href="/invenBoss" class=""><i class="mdi mdi mdi-playlist-edit text-white"></i></a>
                         </li>
                         <li class="list-inline-item">
-                            <a href="#" class=""><i class="mdi mdi-power text-danger"></i></a>
+                            <a href="/orderBoss" class=""><i class="mdi mdi-table-large text-white"></i></a>
+                        </li>
+                        <li class="list-inline-item">
+                            <form action="/logout" method="POST">
+                                @csrf
+                                    <button class="rounded-circle display-none bg-transparent"><a href="#" class=""><i class="mdi mdi-power text-danger "></i></a></button>
+                            </form>
                         </li>
                     </ul>
                 </div>
@@ -154,15 +106,15 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="page-title-box">
-                        <div class="float-right align-item-center mt-2">
+                        {{-- <div class="float-right align-item-center mt-2">
                             <a href="/sales" class="btn btn-info px-4 align-self-center report-btn">Order</a>    
-                        </div>
-                        <h4 class="page-title mb-2"><i class="mdi mdi-monitor mr-2"></i>Dashboard</h4>
+                        </div> --}}
+                        <h4 class="page-title mb-2"><i class="mdi mdi-monitor mr-2"></i>{{ $title }}</h4>
                         <div class="">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="javascript:void(0);">Frogetor</a></li>
-                                <li class="breadcrumb-item"><a href="javascript:void(0);">Dashboard</a></li>
-                                <li class="breadcrumb-item active">Dashboard</li>
+                                <li class="breadcrumb-item"><a href="javascript:void(0);">IKHLASAPP</a></li>
+                                <li class="breadcrumb-item"><a href="javascript:void(0);">BIG BOSS</a></li>
+                                <li class="breadcrumb-item active">{{ $title }}</li>
                             </ol>
                         </div>
                     </div>

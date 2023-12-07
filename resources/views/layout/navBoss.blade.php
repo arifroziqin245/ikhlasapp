@@ -6,22 +6,22 @@
             <!-- Navigation Menu-->
             <ul class="navigation-menu list-unstyled d-flex justify-content-center">
 
-                <li class="has-submenu">
-                    <a href="/sd">
+                <li class="has-submenu {{ ($active === "dashboard") ? 'active' : '' }}">
+                    <a href="/boss">
                         <i class="mdi mdi-monitor"></i>
                         Dashboard
                     </a>
                 </li>
 
-                <li class="has-submenu">
-                    <a href="/sl">
+                <li class="has-submenu {{ ($active === "inventoryb") ? 'active' : '' }}">
+                    <a href="/invenBoss">
                         <i class="mdi mdi mdi-playlist-edit"></i>
                         Inventory
                     </a>
                 </li>
 
-                <li class="has-submenu">
-                    <a href="/sales">
+                <li class="has-submenu {{ ($active === "orderb") ? 'active' : '' }}">
+                    <a href="/orderBoss">
                         <i class="mdi mdi-table-large"></i>
                         Order List
                     </a>

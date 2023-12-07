@@ -25,6 +25,7 @@ class SalesController extends Controller
 
         return view('sales.indexAwal',[
             'title' => 'Sales Ikhlas',
+            'active' => 'orderbr',
             'inventory' => Inventory::all(),
             'category' => Category::all(),
             'doro' => $doro,
@@ -40,28 +41,24 @@ class SalesController extends Controller
     {
         return view('sales.index',[
             "title" => "Form Input Data Order",
+            'active' => 'orderbr',
             "customer" => Customer::find($id),
             "inventory" => Inventory::all(),
             "category" => Category::all(),
         ]);
     }
-
-    public function dashboard()
-    {
-        return view('sales.dashboard',[
-            'title' => 'Sales Ikhlas',
-            'inventory' => Inventory::all(),
-            'category' => Category::all()
-        ]);
-    }
-    
     
     public function list()
     {
+        $today = date('Y-m-d', strtotime('+1 day'));
+        $to = date('Y-m-d', strtotime('-4 days'));
+        $order = Order::where('status_order', 0)->whereBetween('created_at', [$to, $today])->orderBy('created_at', 'desc')->get();
+        // dd($order);
         return view('sales.list_order',[
+            'active' => 'list',
             'title' => 'List Order',
             'inventory' => Inventory::all(),
-            'order' => Order::where('status_order', 0)->get(),
+            'order' => $order,
             // 'order' => DB::table('orders')->select('*')->groupBy('nama_cust')->get()
             // 'detail' => DB::table('detil_orders')->select('*')->groupBy('id_order')->get()
         ]);
@@ -69,11 +66,14 @@ class SalesController extends Controller
 
     public function nota()
     {
+        $today = date('Y-m-d');
+        $to = date('Y-m-d', strtotime('-4 days'));
         $data =  Order::where('status_order', 1)->whereDate('updated_at', date('Y-m-d'))->get();
 
         return view('sales.nota',[
-            'title' => 'List Order',
-            'order' => Order::where('status_order', 1)->get(),
+            'active' => 'nota',
+            'title' => 'Nota',
+            'order' => Order::where('status_order', 1)->whereBetween('created_at', [$to, $today])->get(),
             // 'order' => DB::table('orders')->select('*')->groupBy('nama_cust')->get()
             // 'detail' => DB::table('detil_orders')->select('*')->groupBy('id_order')->get()
         ]);
@@ -131,6 +131,7 @@ class SalesController extends Controller
         $datas[] = [
             'id' => $barang->id,
             'nama_barang' => $barang->nama_barang,
+            'category' => $barang->category,
             'jumlah' => $jumlah,
             'harga' => $harga,
             'satuan' => $satuan,
@@ -154,9 +155,6 @@ class SalesController extends Controller
 
     public function store_tambah(Request $request)
     {
-        // dd($request->all());
-
-
         $validatedData = $request->validate([
             'nama_barang' =>'required|max:255',
             'id_order'=> 'required',
@@ -181,6 +179,7 @@ class SalesController extends Controller
         DetilOrder::create([
             'id_order' => $request->id_order,
             'nama_barang'=>$request->nama_barang,
+            'category'=>"ATSK",
             'jumlah'=>$jumlah,
             'satuan'=>$request->satuan,
             'harga'=>$harga,
@@ -191,15 +190,10 @@ class SalesController extends Controller
 
     public function store(Request $request)
     {
-        // dd($request);
-        // $validatedData = $request->validate([
-        //     'nama_barang' =>'required',
-        //     'jumlah' =>'required',
-        //     'harga' =>'required',
-        //     'keterangan' =>'max:255',
-        //     // 'grand_total' =>'required',
-        // ]);
-
+        $rules = $request->validate([
+            'nm_barang' => 'required'
+        ]);
+        
         $jumlah_item = count($request->nm_barang);
 
         $order = new Order();
@@ -216,6 +210,7 @@ class SalesController extends Controller
             DetilOrder::create([
                 'id_order' => $id,
                 'nama_barang'=>$request->nm_barang[$key],
+                'category'=>$request->category_brg[$key],
                 'jumlah'=>$request->jumlah[$key],
                 'satuan'=>$request->satuan_list[$key],
                 'harga'=>$request->harga[$key],
@@ -243,9 +238,8 @@ class SalesController extends Controller
 
     public function destroy($id)
     {
-        Customer::destroy($id);
-        return redirect('/sales')->with('success', ' Satu data berhasil dihapus!!');
-
+        DetilOrder::destroy($id);
+        return redirect('/sl')->with('success', ' Satu data berhasil dihapus!!');
     }
 
     public function print($id)

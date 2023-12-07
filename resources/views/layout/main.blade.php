@@ -29,7 +29,7 @@
 
             <!-- LOGO -->
             <div class="topbar-left">
-                <a href="index.html" class="logo">
+                <a href="/" class="logo">
                     <span>
                         <img src="/assets/images/fixlogo.png" alt="logo-small" class="logo-sm">
                     </span>
@@ -42,57 +42,18 @@
             <ul class="list-unstyled topbar-nav float-right mb-0">
 
                 <li class="dropdown">
-                    <a class="nav-link dropdown-toggle arrow-none waves-light waves-effect" data-toggle="dropdown"
-                        href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                        <i class="mdi mdi-tag-multiple nav-icon"></i>
-                        <span class="badge badge-danger badge-pill noti-icon-badge">2</span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right dropdown-lg">
-                        <!-- item-->
-                        <h6 class="dropdown-item-text">
-                            Category (Jumlah caegory)
-                        </h6>
-                        <div class="slimscroll notification-list">
-                            <!-- item-->
-                            @php
-                                use Illuminate\Support\Facades\DB;
-                                $kk =  DB::table('categories')->get();
-                            @endphp
-                            @foreach ($kk as $item)
-                                
-                            <a href="javascript:void(0);" class="dropdown-item notify-item active">
-                                <div class="notify-icon bg-success"><i class="mdi mdi-cart-outline"></i></div>
-                                <p class="notify-details">{{ $item->nama_category }}</p>
-                            </a>
-                                <!-- item-->
-                                @endforeach
-                           
-                        </div>
-                        <!-- All-->
-                        <a href="javascript:void(0);" class="dropdown-item text-center text-primary">
-                            View all <i class="fi-arrow-right"></i>
-                        </a>
-                    </div>
-                </li>
-
-                <li class="dropdown">
                     <a class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown"
                         href="#" role="button" aria-haspopup="false" aria-expanded="false">
                         <img src="/assets/images/users/user-1.jpg" alt="profile-user" class="rounded-circle" />
-                        <span class="ml-1 nav-user-name hidden-sm"> <i class="mdi mdi-chevron-down"></i> </span>
+                        {{-- <span class="ml-1 nav-user-name hidden-sm"> <i class="mdi mdi-chevron-down"></i> </span> --}}
                     </a>
                     <div class="dropdown-menu dropdown-menu-right">
-                        <a class="dropdown-item" href="#"><i class="dripicons-user text-muted mr-2"></i>
-                            Profile</a>
-                        <a class="dropdown-item" href="#"><i class="dripicons-wallet text-muted mr-2"></i> My
-                            Wallet</a>
-                        <a class="dropdown-item" href="#"><i class="dripicons-gear text-muted mr-2"></i>
-                            Settings</a>
-                        <a class="dropdown-item" href="#"><i class="dripicons-lock text-muted mr-2"></i> Lock
-                            screen</a>
+                      
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#"><i class="dripicons-exit text-muted mr-2"></i>
-                            Logout</a>
+                        <form action="/logout" method="POST">
+                            @csrf
+                            <button type="submit" class="dropdown-item" href="#"><i class="dripicons-exit text-muted mr-2"></i>Logout</button>
+                        </form>
                     </div>
                 </li>
                 <li class="menu-item">
@@ -120,16 +81,22 @@
                 <img src="/assets/images/fixlogo.png" alt="user" class="rounded-circle img-thumbnail mb-1">
                 <span class="online-icon"><i class="mdi mdi-record text-success"></i></span>
                 <div class="media-body">
-                    <h5 class="text-light">Mr. Roziqin </h5>
+                    <h5 class="text-light">Staf Ikhlas Stationary </h5>
                     <ul class="list-unstyled list-inline mb-0 mt-2">
-                        <li class="list-inline-item">
-                            <a href="#" class=""><i class="mdi mdi-account text-light"></i></a>
+                        <li class="list-inline-item ">
+                            <a href="/" class=""><i class="mdi mdi-table-large text-light"></i></a>
+                        </li>
+                        <li class="list-inline-item {{ ($active === "change") ? 'active' : '' }}">
+                            <a href="#" class=""><i class="mdi mdi-timetable text-light"></i></a>
+                        </li>
+                        <li class="list-inline-item {{ ($active === "order") ? 'active' : '' }}">
+                            <a href="#" class=""><i class="mdi mdi-playlist-edit text-light"></i></a>
                         </li>
                         <li class="list-inline-item">
-                            <a href="#" class=""><i class="mdi mdi-settings text-light"></i></a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a href="#" class=""><i class="mdi mdi-power text-danger"></i></a>
+                            <form action="/logout" method="POST">
+                                @csrf
+                                    <button class="rounded-circle display-none bg-transparent"><a href="#" class=""><i class="mdi mdi-power text-danger "></i></a></button>
+                            </form>
                         </li>
                     </ul>
                 </div>
@@ -141,12 +108,12 @@
                         <div class="float-right align-item-center mt-2">
                             <a href="/inventory/create" class="btn btn-info px-4 align-self-center report-btn">Tambah Data</a>    
                         </div>
-                        <h4 class="page-title mb-2"><i class="mdi mdi-monitor mr-2"></i>Dashboard</h4>
+                        <h4 class="page-title mb-2"><i class="mdi mdi-monitor mr-2"></i>{{ $title }}</h4>
                         <div class="">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="javascript:void(0);">Frogetor</a></li>
-                                <li class="breadcrumb-item"><a href="javascript:void(0);">Dashboard</a></li>
-                                <li class="breadcrumb-item active">Dashboard</li>
+                                <li class="breadcrumb-item"><a href="javascript:void(0);">IKHLASAPP</a></li>
+                                <li class="breadcrumb-item"><a href="javascript:void(0);">STAFF</a></li>
+                                <li class="breadcrumb-item active">{{ $title }}</li>
                             </ol>
                         </div>
                     </div>

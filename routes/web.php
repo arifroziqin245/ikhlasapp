@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BossController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\CategoryController;
@@ -21,14 +22,9 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/',[InventoryController::class, 'index']);
+Route::get('/',[InventoryController::class, 'index'])->middleware('auth');
 
-Route::get('/change', function () {
-    return view('admin/change',[
-        'history' => History::all(),
-        'category' => Category::all()
-    ]);
-});
+Route::get('/change', [InventoryController::class, 'change']);
 
 // Route::get('/report', [InventoryController::class, 'report']);
 
@@ -55,16 +51,19 @@ Route::delete('/hapusorder/{id}', [InventoryController::class, 'hapusOrder']);
 Route::resource('/category',CategoryController::class);
 
 //route Sales
-Route::resource('/sales',SalesController::class);
+Route::resource('/sales',SalesController::class)->middleware('auth');
 Route::get('/sd', [SalesController::class, 'dashboard']);
 Route::get('/sl', [SalesController::class, 'list']);
 Route::get('/not', [SalesController::class, 'nota']);
 Route::get('/el', [SalesController::class, 'edit_order']);
 Route::post('/sl-store', [SalesController::class, 'store_tambah']);
 route::get('getDetail/{id}', [SalesController::class, 'getDetail'])->name('getDetail');
-
+route::delete('/sales/{id}', [SalesController::class, 'destroy']);
 // route Boss
-Route::resource('/boss', BossController::class);
+Route::resource('/boss', BossController::class)->middleware('auth');
+Route::get('/invenBoss', [InventoryController::class, 'invenBoss']);
+Route::get('/orderBoss', [InventoryController::class, 'orderBoss']);
+route::get('/get_do/{id}', [BossController::class, 'getDetailORder']);
 
 // route create satuan
 Route::post('/satuan', [CategoryController::class, 'satuan']);
@@ -82,5 +81,9 @@ Route::get('/sales/print/{id}', [SalesController::class, 'print']);
 
 // tambah gambar
 Route::post('admin/tambah_gambar/{id}', [InventoryController::class, 'tambahGambar']);
-
 Route::post('/get_inventory', [InventoryController::class, 'json']);
+
+//login
+route::get('/login',  [AuthController::class, 'index'])->name('login');
+route::post('/authentication',  [AuthController::class, 'authenticate']);
+route::post('/logout',  [AuthController::class, 'logout']);

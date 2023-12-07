@@ -18,8 +18,8 @@
             <tr>     
                 <td>{{ $his->nama_barang }}</td>
                 <td>Rp. {{ number_format($his->harga_lama,0,',','.') }}</td>
-                <td>{{ $his->harga_baru }}</td>
-                <td>
+                <td>{{ number_format($his->harga_baru,0,',','.') }}</td>
+                <td class="text-center">
                     @if($his->status == "1")
                         <span class="badge badge-success">Baru</span></td>
                     @elseif($his->status == "2")

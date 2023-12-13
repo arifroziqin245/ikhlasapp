@@ -361,7 +361,7 @@
                                                                 </div>
                                                                 <h2 class="mt-0 font-weight-bold text-dark">Rp.
                                                                     {{ number_format($cml_pml, 0, ',', '.') }}</h2>
-                                                                @if ($cml_pml !== 0)
+                                                                {{-- @if ($cml_pml !== 0)
                                                                     @if ($cml_pml > $cml_pml_bulan_lalu)
                                                                         <p class="mb-1 text-muted"><span
                                                                                 class="text-success">
@@ -383,7 +383,44 @@
                                                                             </span> Bulan lalu
                                                                         </p>
                                                                     @endif
+                                                                @endif --}}
+                                                                @if ($cml_pml !== 0)
+                                                                @if ($cml_pml > $cml_pml_bulan_lalu)
+                                                                    @if ($cml_pml_bulan_lalu !== 0)
+                                                                        <p class="mb-1 text-muted"><span class="text-success">
+                                                                            <i class="mdi mdi-arrow-up"></i>
+                                                                            @php
+                                                                                $selisih = $cml_pml - $cml_pml_bulan_lalu;
+                                                                                $persen = ($selisih * 100) / $cml_pml_bulan_lalu;
+                                                                            @endphp
+                                                                            {{ round($persen) }}%
+                                                                        </span> Bulan lalu
+                                                                        </p>
+                                                                    @else
+                                                                        <p class="mb-1 text-muted">
+                                                                            <span class="text-success">
+                                                                            <i class="mdi mdi-arrow-up"></i>
+                                                                            @php
+                                                                                // $selisih = $cml_pml - $cml_pml_bulan_lalu;
+                                                                                $persen = "100";
+                                                                            @endphp
+                                                                            {{ round($persen) }}%
+                                                                        </span> Bulan lalu
+                                                                        </p>
+                                                                    @endif
+                                                                @else
+                                                                    <p class="mb-1 text-muted"><span
+                                                                            class="text-danger">
+                                                                            <i class="mdi mdi-arrow-down"></i>
+                                                                            @php
+                                                                            $selisih = $cml_pml_bulan_lalu - $cml_pml;
+                                                                            $persen = ($selisih * 100) / $cml_pml_bulan_lalu;
+                                                                            @endphp
+                                                                            {{ round($persen) }} %
+                                                                        </span> Bulan lalu
+                                                                    </p>
                                                                 @endif
+                                                            @endif
                                                             </div>
                                                         </div><!--end col-->
                                                     </div><!--end row-->
@@ -398,7 +435,7 @@
                                                                 </div>
                                                                 <h2 class="mt-0 font-weight-bold text-dark">Rp.
                                                                     {{ number_format($kry_kdw, 0, ',', '.') }}</h2>
-                                                                @if ($kry_kdw !== 0)
+                                                                {{-- @if ($kry_kdw !== 0)
                                                                     @if ($kry_kdw > $kry_kdw_bulan_lalu)
                                                                         <p class="mb-1 text-muted"><span
                                                                                 class="text-success">
@@ -420,7 +457,44 @@
                                                                             </span> Bulan lalu
                                                                         </p>
                                                                     @endif
+                                                                @endif --}}
+                                                                @if ($kry_kdw !== 0)
+                                                                @if ($kry_kdw > $kry_kdw_bulan_lalu)
+                                                                    @if ($kry_kdw_bulan_lalu !== 0)
+                                                                        <p class="mb-1 text-muted"><span class="text-success">
+                                                                            <i class="mdi mdi-arrow-up"></i>
+                                                                            @php
+                                                                                $selisih = $kry_kdw - $kry_kdw_bulan_lalu;
+                                                                                $persen = ($selisih * 100) / $kry_kdw_bulan_lalu;
+                                                                            @endphp
+                                                                            {{ round($persen) }}%
+                                                                        </span> Bulan lalu
+                                                                        </p>
+                                                                    @else
+                                                                        <p class="mb-1 text-muted">
+                                                                            <span class="text-success">
+                                                                            <i class="mdi mdi-arrow-up"></i>
+                                                                            @php
+                                                                                // $selisih = $kry_kdw - $kry_kdw_bulan_lalu;
+                                                                                $persen = "100";
+                                                                            @endphp
+                                                                            {{ round($persen) }}%
+                                                                        </span> Bulan lalu
+                                                                        </p>
+                                                                    @endif
+                                                                @else
+                                                                    <p class="mb-1 text-muted"><span
+                                                                            class="text-danger">
+                                                                            <i class="mdi mdi-arrow-down"></i>
+                                                                            @php
+                                                                            $selisih = $kry_kdw_bulan_lalu - $kry_kdw;
+                                                                            $persen = ($selisih * 100) / $kry_kdw_bulan_lalu;
+                                                                            @endphp
+                                                                            {{ round($persen) }} %
+                                                                        </span> Bulan lalu
+                                                                    </p>
                                                                 @endif
+                                                            @endif
                                                             </div>
                                                         </div><!--end col-->
                                                     </div><!--end row-->
@@ -435,7 +509,7 @@
                                                                 </div>
                                                                 <h2 class="mt-0 font-weight-bold text-dark">Rp.
                                                                     {{ number_format($bjg_srg, 0, ',', '.') }}</h2>
-                                                                @if ($bjg_srg !== 0)
+                                                                {{-- @if ($bjg_srg !== 0)
                                                                     @if ($bjg_srg > $bjg_srg_bulan_lalu)
                                                                         <p class="mb-1 text-muted"><span
                                                                                 class="text-success">
@@ -457,7 +531,44 @@
                                                                             </span> Bulan lalu
                                                                         </p>
                                                                     @endif
+                                                                @endif --}}
+                                                                @if ($bjg_srg !== 0)
+                                                                @if ($bjg_srg > $bjg_srg_bulan_lalu)
+                                                                    @if ($bjg_srg_bulan_lalu !== 0)
+                                                                        <p class="mb-1 text-muted"><span class="text-success">
+                                                                            <i class="mdi mdi-arrow-up"></i>
+                                                                            @php
+                                                                                $selisih = $bjg_srg - $bjg_srg_bulan_lalu;
+                                                                                $persen = ($selisih * 100) / $bjg_srg_bulan_lalu;
+                                                                            @endphp
+                                                                            {{ round($persen) }}%
+                                                                        </span> Bulan lalu
+                                                                        </p>
+                                                                    @else
+                                                                        <p class="mb-1 text-muted">
+                                                                            <span class="text-success">
+                                                                            <i class="mdi mdi-arrow-up"></i>
+                                                                            @php
+                                                                                // $selisih = $bjg_srg - $bjg_srg_bulan_lalu;
+                                                                                $persen = "100";
+                                                                            @endphp
+                                                                            {{ round($persen) }}%
+                                                                        </span> Bulan lalu
+                                                                        </p>
+                                                                    @endif
+                                                                @else
+                                                                    <p class="mb-1 text-muted"><span
+                                                                            class="text-danger">
+                                                                            <i class="mdi mdi-arrow-down"></i>
+                                                                            @php
+                                                                            $selisih = $bjg_srg_bulan_lalu - $bjg_srg;
+                                                                            $persen = ($selisih * 100) / $bjg_srg_bulan_lalu;
+                                                                            @endphp
+                                                                            {{ round($persen) }} %
+                                                                        </span> Bulan lalu
+                                                                    </p>
                                                                 @endif
+                                                            @endif
                                                             </div>
                                                         </div><!--end col-->
                                                     </div><!--end row-->
@@ -472,7 +583,7 @@
                                                                 </div>
                                                                 <h2 class="mt-0 font-weight-bold text-dark">Rp.
                                                                     {{ number_format($doro, 0, ',', '.') }}</h2>
-                                                                @if ($doro !== 0)
+                                                                {{-- @if ($doro !== 0)
                                                                     @if ($doro > $doro_bulan_lalu)
                                                                         <p class="mb-1 text-muted"><span
                                                                                 class="text-success">
@@ -494,7 +605,44 @@
                                                                             </span> Bulan lalu
                                                                         </p>
                                                                     @endif
+                                                                @endif --}}
+                                                                @if ($doro !== 0)
+                                                                @if ($doro > $doro_bulan_lalu)
+                                                                    @if ($doro_bulan_lalu !== 0)
+                                                                        <p class="mb-1 text-muted"><span class="text-success">
+                                                                            <i class="mdi mdi-arrow-up"></i>
+                                                                            @php
+                                                                                $selisih = $doro - $doro_bulan_lalu;
+                                                                                $persen = ($selisih * 100) / $doro_bulan_lalu;
+                                                                            @endphp
+                                                                            {{ round($persen) }}%
+                                                                        </span> Bulan lalu
+                                                                        </p>
+                                                                    @else
+                                                                        <p class="mb-1 text-muted">
+                                                                            <span class="text-success">
+                                                                            <i class="mdi mdi-arrow-up"></i>
+                                                                            @php
+                                                                                // $selisih = $doro - $doro_bulan_lalu;
+                                                                                $persen = "100";
+                                                                            @endphp
+                                                                            {{ round($persen) }}%
+                                                                        </span> Bulan lalu
+                                                                        </p>
+                                                                    @endif
+                                                                @else
+                                                                    <p class="mb-1 text-muted"><span
+                                                                            class="text-danger">
+                                                                            <i class="mdi mdi-arrow-down"></i>
+                                                                            @php
+                                                                            $selisih = $doro_bulan_lalu - $doro;
+                                                                            $persen = ($selisih * 100) / $doro_bulan_lalu;
+                                                                            @endphp
+                                                                            {{ round($persen) }} %
+                                                                        </span> Bulan lalu
+                                                                    </p>
                                                                 @endif
+                                                            @endif
                                                             </div>
                                                         </div><!--end col-->
                                                     </div><!--end row-->
@@ -511,27 +659,35 @@
                                                                     {{ number_format($kesesi, 0, ',', '.') }}</h2>
                                                                 @if ($kesesi !== 0)
                                                                     @if ($kesesi > $kesesi_bulan_lalu)
-                                                                        <p class="mb-1 text-muted"><span
-                                                                                class="text-success">
+                                                                        @if ($kesesi_bulan_lalu !== 0)
+                                                                            <p class="mb-1 text-muted"><span class="text-success">
                                                                                 <i class="mdi mdi-arrow-up"></i>
                                                                                 @php
-                                                                                if ($kesesi_bulan_lalu === 0) {
-                                                                                    $persen = 0;
-                                                                                } else {
-                                                                                    $selisih = $kesesi_bulan_lalu - $kesesi
-                                                                                    $persen = ($selisih  / $kesesi_bulan_lalu) * -100;
-                                                                                }
+                                                                                    $selisih = $kesesi - $kesesi_bulan_lalu;
+                                                                                    $persen = ($selisih * 100) / $kesesi_bulan_lalu;
                                                                                 @endphp
                                                                                 {{ round($persen) }}%
                                                                             </span> Bulan lalu
-                                                                        </p>
+                                                                            </p>
+                                                                        @else
+                                                                            <p class="mb-1 text-muted">
+                                                                                <span class="text-success">
+                                                                                <i class="mdi mdi-arrow-up"></i>
+                                                                                @php
+                                                                                    // $selisih = $kesesi - $kesesi_bulan_lalu;
+                                                                                    $persen = "100";
+                                                                                @endphp
+                                                                                {{ round($persen) }}%
+                                                                            </span> Bulan lalu
+                                                                            </p>
+                                                                        @endif
                                                                     @else
                                                                         <p class="mb-1 text-muted"><span
                                                                                 class="text-danger">
                                                                                 <i class="mdi mdi-arrow-down"></i>
                                                                                 @php
-                                                                                 $selisih = $kesesi_bulan_lalu - $kesesi
-                                                                                    $persen = ($selisih * 100) / $kesesi;
+                                                                                $selisih = $kesesi_bulan_lalu - $kesesi;
+                                                                                $persen = ($selisih * 100) / $kesesi_bulan_lalu;
                                                                                 @endphp
                                                                                 {{ round($persen) }} %
                                                                             </span> Bulan lalu
@@ -552,7 +708,7 @@
                                                                 </div>
                                                                 <h2 class="mt-0 font-weight-bold text-dark">Rp.
                                                                     {{ number_format($png, 0, ',', '.') }}</h2>
-                                                                @if ($png !== 0)
+                                                                {{-- @if ($png !== 0)
                                                                     @if ($png > $png_bulan_lalu)
                                                                         <p class="mb-1 text-muted"><span
                                                                                 class="text-success">
@@ -574,7 +730,44 @@
                                                                             </span> Bulan lalu
                                                                         </p>
                                                                     @endif
+                                                                @endif --}}
+                                                                @if ($png !== 0)
+                                                                @if ($png > $png_bulan_lalu)
+                                                                    @if ($png_bulan_lalu !== 0)
+                                                                        <p class="mb-1 text-muted"><span class="text-success">
+                                                                            <i class="mdi mdi-arrow-up"></i>
+                                                                            @php
+                                                                                $selisih = $png - $png_bulan_lalu;
+                                                                                $persen = ($selisih * 100) / $png_bulan_lalu;
+                                                                            @endphp
+                                                                            {{ round($persen) }}%
+                                                                        </span> Bulan lalu
+                                                                        </p>
+                                                                    @else
+                                                                        <p class="mb-1 text-muted">
+                                                                            <span class="text-success">
+                                                                            <i class="mdi mdi-arrow-up"></i>
+                                                                            @php
+                                                                                // $selisih = $png - $png_bulan_lalu;
+                                                                                $persen = "100";
+                                                                            @endphp
+                                                                            {{ round($persen) }}%
+                                                                        </span> Bulan lalu
+                                                                        </p>
+                                                                    @endif
+                                                                @else
+                                                                    <p class="mb-1 text-muted"><span
+                                                                            class="text-danger">
+                                                                            <i class="mdi mdi-arrow-down"></i>
+                                                                            @php
+                                                                            $selisih = $png_bulan_lalu - $png;
+                                                                            $persen = ($selisih * 100) / $png_bulan_lalu;
+                                                                            @endphp
+                                                                            {{ round($persen) }} %
+                                                                        </span> Bulan lalu
+                                                                    </p>
                                                                 @endif
+                                                            @endif
                                                             </div>
                                                         </div><!--end col-->
                                                     </div><!--end row-->

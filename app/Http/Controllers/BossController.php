@@ -1047,7 +1047,15 @@ class BossController extends Controller
         }
     }
 
-  
+    public function laporan(Request $request){
+        $awal = $request->awal;
+        $akhir = $request->akhir;
+        return view('bos.laporan',[
+            'title' => 'Cetak Laporan Order',
+            'order' => Order::select("*")->whereBetween('created_at', [$awal, $akhir])->get()
+        ]);
+
+    }
     public function signin(){
         return view('signin', [
             'active' => 'signin',

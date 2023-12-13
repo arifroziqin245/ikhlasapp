@@ -64,6 +64,7 @@ Route::resource('/boss', BossController::class)->middleware('auth');
 Route::get('/invenBoss', [InventoryController::class, 'invenBoss']);
 Route::get('/orderBoss', [InventoryController::class, 'orderBoss']);
 route::get('/get_do/{id}', [BossController::class, 'getDetailORder']);
+route::post('/boss/laporan', [BossController::class, 'laporan']);
 
 // route create satuan
 Route::post('/satuan', [CategoryController::class, 'satuan']);

@@ -26,7 +26,7 @@ class SalesController extends Controller
         return view('sales.indexAwal',[
             'title' => 'Sales Ikhlas',
             'active' => 'orderbr',
-            'inventory' => Inventory::all(),
+            'inventory' => Inventory::orderBy('nama_barang', 'ASC')->get(),
             'category' => Category::all(),
             'doro' => $doro,
             'kdwdankry' => $kdwdankry,
@@ -43,7 +43,7 @@ class SalesController extends Controller
             "title" => "Form Input Data Order",
             'active' => 'orderbr',
             "customer" => Customer::find($id),
-            "inventory" => Inventory::all(),
+            "inventory" => Inventory::orderBy('nama_barang', 'ASC')->get(),
             "category" => Category::all(),
         ]);
     }
@@ -155,6 +155,7 @@ class SalesController extends Controller
 
     public function store_tambah(Request $request)
     {
+        dd($request);
         $validatedData = $request->validate([
             'nama_barang' =>'required|max:255',
             'id_order'=> 'required',
@@ -238,8 +239,8 @@ class SalesController extends Controller
 
     public function destroy($id)
     {
-        DetilOrder::destroy($id);
-        return redirect('/sl')->with('success', ' Satu data berhasil dihapus!!');
+        Customer::destroy($id);
+        return redirect('/sales')->with('success', ' Satu data berhasil dihapus!!');
     }
 
     public function print($id)

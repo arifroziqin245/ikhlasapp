@@ -26,20 +26,20 @@
                     </button>
                 </div>
                 <div class="col-sm-2">
-                    <label for="">Harga</label>
-                    <input type="text" class="form-control" name="harga[]">
-                </div>
-                <div class="col-sm-2">
                     <label for="">Satuan</label>
                     <select name="satuan[]" id="" class="form-control">
                         <option disabled selected>Pilih Satuan</option>
                         @foreach ($satuan as $satu)
-                            <option class="text-dark" value="{{ $satu->nama_satuan }}">{{ $satu->nama_satuan }}</option>
+                        <option class="text-dark" value="{{ $satu->nama_satuan }}">{{ $satu->nama_satuan }}</option>
                         @endforeach
                     </select>
                     <button type="button" class="mt-1 btn btn-outline-info btn-sm waves-effect waves-light-" data-toggle="modal" data-target="#modalSatuan">
                         Tambah Satuan
                     </button>
+                </div>
+                <div class="col-sm-2">
+                    <label for="">Harga</label>
+                    <input type="text" class="form-control" name="harga[]" >
                 </div>
                 <div class="col-sm-2">
                     <label for="">Isi</label>

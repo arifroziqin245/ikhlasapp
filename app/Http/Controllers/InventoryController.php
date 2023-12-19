@@ -74,6 +74,7 @@ class InventoryController extends Controller
             'lok' => date('d F Y', strtotime('-1 day')),
             'order_all' => Order::where('status_order', 1)->get(),
             'order' => Order::where('status_order', 0)->get(),
+            'ord' => Order::all(),
         ]);
     }
 

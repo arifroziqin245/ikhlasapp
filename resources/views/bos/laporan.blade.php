@@ -36,6 +36,7 @@
             <th align="left" width="25%">Total Transaksi</th>
             {{-- <th align="left" width="15%">Biaya</th> --}}
         </tr>
+        <?php  $grand_total = 0; ?>
         @foreach ($order as $item)
             <tr>
                 <td>{{ $loop->iteration }}</td>
@@ -44,7 +45,7 @@
                 <td>{{ $item->jumlah_item }} Item</td>
                 <td>Rp. {{ number_format($item->total, 0, ',', '.') }}</td>
                 <?php 
-                // $grand_total = 0;
+               
                 $grand_total += $item->total; 
                 ?>
             </tr>

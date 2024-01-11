@@ -317,11 +317,14 @@ class InventoryController extends Controller
         $columns = ['id','nama_barang','category', 'harga', 'satuan', 'isi', 'status_barang', 'gambar'];
         $orderBy = $columns[request()->input("order.0.column")];
         $data = Inventory::select('id','nama_barang','category', 'harga', 'satuan', 'isi', 'status_barang', 'gambar');
+        if (request('category') !== "All") {
+            $data = $data->where('category', request('category'));
+        }
 
         if(request()->input("search.value")){
             $data = $data->where(function($query){
-                $query->whereRaw('nama_hewan like ? ', ['%'.request()->input("search.value").'%'])
-                ->orWhereRaw('keterangan like ? ', ['%'.request()->input("search.value").'%']);
+                $query->whereRaw('nama_barang like ? ', ['%'.request()->input("search.value").'%'])
+                ->orWhereRaw('category like ? ', ['%'.request()->input("search.value").'%']);
             });
         }
 
@@ -337,7 +340,8 @@ class InventoryController extends Controller
             'draw' => request()->input('draw'),
             'recordsTotal' => $recordsTotal,
             'recordsFiltered' => $recordsFiltered,
-            'data' => $data
+            'data' => $data,
+            'category' => request('category')
         ]);
     }
 }

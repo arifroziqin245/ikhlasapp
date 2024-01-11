@@ -3,6 +3,7 @@
     <!-- DataTables -->
     <link href="/assets/plugins/datatables/dataTables.bootstrap4.min.css" rel="stylesheet" type="text/css" />
     <link href="/assets/plugins/datatables/buttons.bootstrap4.min.css" rel="stylesheet" type="text/css" />
+
     <!-- Responsive datatable examples -->
     <link href="/assets/plugins/datatables/responsive.bootstrap4.min.css" rel="stylesheet" type="text/css" />
 @endpush
@@ -16,10 +17,9 @@
             @endif
             <div class="row">
                 <ul class="col container-filter categories-filter mb-0" id="filter">
-                    <li><a class="categories active" data-filter="*">All</a></li>
-
+                    <li><a class="categories active" data-category="All">All</a></li>
                     @foreach ($category as $iv)
-                        <li><a class="categories" >{{ $iv->nama_category }}</a></li>
+                        <li><a class="categories" data-category="{{ $iv->nama_category }}">{{ $iv->nama_category }}</a></li>
                     @endforeach
                 </ul>
             </div><!-- End portfolio  -->
@@ -28,46 +28,21 @@
     </div>
     <!--end card-->
 
-    <table id="datatable" class="table table-bordered dt-responsive nowrap"
-        style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+    <table id="data-barang" class="table table-bordered dt-responsive nowrap" style="border-collapse: collapse; border-spacing: 0; width: 100%;">
         <thead>
             <tr>
+                <th>No</th>
                 <th>Nama Barang</th>
                 <th>Harga Termurah</th>
-                {{-- <th>Satuan</th> --}}
                 <th>Category</th>
-                {{-- <th>Isi</th> --}}
                 <th>Harga Satuan</th>
-                {{-- <th>Action</th> --}}
             </tr>
         </thead>
 
         <tbody>
-            @foreach ($inventory as $iv)
-                <tr>
-                    <td>{{ $iv->nama_barang }}</td>
-                    <td>{{ $iv->harga }} / <span class="badge ">{{ $iv->satuan }} ({{ $iv->isi }})</span></td>
-                    {{-- <td>{{ $iv->satuan }}</td> --}}
-                    <td>{{ $iv->category }}</td>
-                    {{-- <td>{{ $iv->isi }}</td> --}}
-                    <td>{{ $iv->harga_satuan }}</td>
-                    {{-- <td>
-                        <div class="btn-group">
-                            <a href="inventory/{{ $iv->id }}" class="btn btn-outline-warning btn-sm"><i
-                                    class="far fa-eye"></i></a>
-                           
-                            <form action="inventory/{{ $iv->id }}" method="post">
-                                @method('delete')
-                                @csrf
-                                <button class="btn btn-outline-danger btn-sm" onclick="return confirm('Are you sure?')"><i
-                                        class="far fa-trash-alt"></i></button>
-                            </form>
-                        </div>
-                    </td> --}}
-                </tr>
-            @endforeach
         </tbody>
     </table>
+
     <div class="col-md-6 col-lg-3">
 
         <!-- sample modal content -->
@@ -146,7 +121,25 @@
 @endsection
 
 @push('js')
+    <script src="/assets/plugins/datatables/jquery.dataTables.min.js"></script>
+    <script src="/assets/plugins/datatables/dataTables.bootstrap4.min.js"></script>
+    <!-- Buttons examples -->
+    <script src="/assets/plugins/datatables/dataTables.buttons.min.js"></script>
+    <script src="/assets/plugins/datatables/buttons.bootstrap4.min.js"></script>
+    <script src="/assets/plugins/datatables/buttons.html5.min.js"></script>
+    <script src="/assets/plugins/datatables/buttons.print.min.js"></script>
+    <script src="/assets/plugins/datatables/buttons.colVis.min.js"></script>
+    <!-- Responsive examples -->
+    <script src="/assets/plugins/datatables/dataTables.responsive.min.js"></script>
+    <script src="/assets/plugins/datatables/responsive.bootstrap4.min.js"></script>
+    <script src="/assets/pages/jquery.datatable.init.js"></script>
+
     <script>
+        $(document).ready(function(e){
+            var category = "All";
+            loaddata(category);
+        })
+
         $(document).on('click', '.editdata', function(e) {
             e.preventDefault();
             var id = $(this).val();
@@ -199,18 +192,74 @@
                 }
             });
         });
+
+        $(document).on('click', '.categories', function(e){
+            var category = $(this).data('category');
+            $('.categories').removeClass('active');
+            $(this).addClass('active');
+            clearTable();
+            loaddata(category);
+        });
+
+        function clearTable(){
+            $('#data-barang').DataTable().clear();
+            $('#data-barang').DataTable().destroy();
+        }
+
+        function loaddata(category){
+            // load data table
+            const table = $('#data-barang').DataTable({          
+                "lengthMenu": [[5, 10, 25, 50, 100, -1],[5, 10, 25, 50, 100, 'All']],
+                "pageLength": 10, 
+                processing: true,
+                serverSide: true,
+                responseive: true,
+                ajax: {
+                    url:"{{ url('get_inventory') }}",
+                    type:"POST",
+                    data:function(d){
+                        d._token = "{{ csrf_token() }}"
+                        d.category = category
+                    }
+                },
+                columns:[
+                    {
+                        "targets": "_all",
+                        "defaultContent": "-",
+                        "render": function(data, type, row, meta){
+                            return meta.row + meta.settings._iDisplayStart + 1;
+                        }
+                    },
+                    {
+                        "targets": "_all",
+                        "defaultContent": "-",
+                        "render": function(data, type, row, meta){
+                        return row.nama_barang
+                        }
+                    },
+                    {
+                        "targets": "_all",
+                        "defaultContent": "-",
+                        "render": function(data, type, row, meta){
+                        return row.harga
+                        }
+                    },
+                    {
+                        "targets": "_all",
+                        "defaultContent": "-",
+                        "render": function(data, type, row, meta){
+                        return row.category
+                        }
+                    },
+                    {
+                        "targets": "_all",
+                        "defaultContent": "-",
+                        "render": function(data, type, row, meta){
+                        return row.harga_satuan
+                        }
+                    },
+                ]
+            });
+        }
     </script>
-    <!-- Required datatable js -->
-    <script src="/assets/plugins/datatables/jquery.dataTables.min.js"></script>
-    <script src="/assets/plugins/datatables/dataTables.bootstrap4.min.js"></script>
-    <!-- Buttons examples -->
-    <script src="/assets/plugins/datatables/dataTables.buttons.min.js"></script>
-    <script src="/assets/plugins/datatables/buttons.bootstrap4.min.js"></script>
-    <script src="/assets/plugins/datatables/buttons.html5.min.js"></script>
-    <script src="/assets/plugins/datatables/buttons.print.min.js"></script>
-    <script src="/assets/plugins/datatables/buttons.colVis.min.js"></script>
-    <!-- Responsive examples -->
-    <script src="/assets/plugins/datatables/dataTables.responsive.min.js"></script>
-    <script src="/assets/plugins/datatables/responsive.bootstrap4.min.js"></script>
-    <script src="/assets/pages/jquery.datatable.init.js"></script>
 @endpush

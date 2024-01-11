@@ -19,7 +19,7 @@
                     <li><a class="categories active" data-filter="*">All</a></li>
 
                     @foreach ($category as $iv)
-                        <li><a class="categories" data-filter=".buku">{{ $iv->nama_category }}</a></li>
+                        <li><a class="categories" >{{ $iv->nama_category }}</a></li>
                     @endforeach
                 </ul>
             </div><!-- End portfolio  -->

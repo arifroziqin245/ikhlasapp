@@ -7,6 +7,7 @@ use App\Models\Customer;
 use App\Models\DetilOrder;
 use App\Models\Inventory;
 use App\Models\Order;
+use App\Models\Satuan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -66,16 +67,16 @@ class SalesController extends Controller
 
     public function nota()
     {
-        $today = date('Y-m-d');
+        $today = date('Y-m-d', strtotime('+1 day'));
         $to = date('Y-m-d', strtotime('-4 days'));
-        $data =  Order::where('status_order', 1)->whereDate('updated_at', date('Y-m-d'))->get();
-
+        $order = Order::where('status_order', 1)->whereBetween('created_at', [$to, $today])->orderBy('created_at', 'desc')->get();
+       
         return view('sales.nota',[
             'active' => 'nota',
             'title' => 'Nota',
-            'order' => Order::where('status_order', 1)->whereBetween('created_at', [$to, $today])->get(),
-            // 'order' => DB::table('orders')->select('*')->groupBy('nama_cust')->get()
-            // 'detail' => DB::table('detil_orders')->select('*')->groupBy('id_order')->get()
+            'order'=> $order
+            // 'order' => Order::where('status_order', 1)->whereBetween('created_at', [$to, $today])->get(),
+           
         ]);
     }
 
@@ -153,39 +154,48 @@ class SalesController extends Controller
         }   
     }
 
+    public function tambah_order($id){
+        $order = Order::find($id);
+        // return $order;
+        return view('sales.tambah_order',[
+            'active' => 'list',
+            'title' => 'Tambah List',
+            "customer" => $order,
+            "inventory" => Inventory::orderBy('nama_barang', 'ASC')->get(),
+            "category" => Category::all(),
+        ]);
+    }
+
     public function store_tambah(Request $request)
     {
-        dd($request);
+        // dd($request);
         $validatedData = $request->validate([
-            'nama_barang' =>'required|max:255',
+            'nm_barang' =>'required|max:255',
             'id_order'=> 'required',
             'harga'=> 'required',
-            'harga_satuan'=> 'required',
-            'satuan'  => 'required',
         ]);
 
-        if($request->bijian == null){
-            $jumlah = $request->tertentu;
-            $harga = $request->harga;
-        }else{
-            $jumlah = $request->bijian;
-            $harga = $request->harga_satuan;
-        }
+        $jumlah_item = count($request->nm_barang);
 
         $order = Order::find($request->id_order);
         $total_order = $order->total;
-        $order->total = $total_order+$harga*$jumlah;
+        $jumlah_old = $order->jumlah_item;
+        $order->jumlah_item = $jumlah_old + $jumlah_item;
+        $order->total = $total_order+$request->grand_total;
         $order->update();
-
-        DetilOrder::create([
-            'id_order' => $request->id_order,
-            'nama_barang'=>$request->nama_barang,
-            'category'=>"ATSK",
-            'jumlah'=>$jumlah,
-            'satuan'=>$request->satuan,
-            'harga'=>$harga,
-            'total'=>$harga*$jumlah,
-        ]);
+        
+        foreach ($request->nm_barang as $key => $value) {
+            DetilOrder::create([
+                'id_order' => $request->id_order,
+                'nama_barang'=>$request->nm_barang[$key],
+                'category'=>$request->category_brg[$key],
+                'jumlah'=>$request->jumlah[$key],
+                'satuan'=>$request->satuan_list[$key],
+                'harga'=>$request->harga[$key],
+                'total'=>$request->harga[$key]*$request->jumlah[$key],
+            ]);
+        }
+        
         return redirect('/sl')->with('success', 'List orderan baru berhasil ditambahkan!!');
     }
 

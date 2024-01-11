@@ -23,7 +23,7 @@
                 <li class="has-submenu {{ ($active === "orderb") ? 'active' : '' }}">
                     <a href="/orderBoss">
                         <i class="mdi mdi-table-large"></i>
-                        Order List
+                        Laporan
                     </a>
                 </li>
 

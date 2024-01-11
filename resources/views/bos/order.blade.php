@@ -1,5 +1,9 @@
 @extends('layout.bosMain')
 
+@push('css')
+<link href="/assets/plugins/select2/select2.min.css" rel="stylesheet" type="text/css" />
+@endpush
+
 @section('container')
     <div class="row">
         <div class="col-lg-7 col-md-7 col-sm-12">
@@ -30,36 +34,59 @@
 
                             </div>
                         </form>
-
-                        {{-- <div class="table-responsive">
-                            <table class="table mb-0">
-                                <thead class="thead-light">
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Nama</th>
-                                        <th>Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($order_all as $o)
-                                        <tr>
-                                            <th scope="row">{{ $loop->iteration }}</th>
-                                            <td>{{ $o->nama_custs }}</td>
-                                            <td><a href="#" class="btn btn-sm btn-dark" id="detail"
-                                                    data-id="{{ $o->id }}"><i class="fas fa-eye"></i></a></td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                            <!--end /table-->
-                        </div> --}}
-                        <!--end /tableresponsive-->
-                        
-                        <!--end /table-->
                     </div>
                 </div>
             </div>
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="header-title mt-0">Laporan Penjualan Produk Tertentu</h4>
+                    <p class="mb-4 text-muted">Ikhlas Stationary Kajen</p>
+                    <div class="table-responsive">
 
+                        <form action="/boss/laporan_penj" method="post">
+                            {{-- <h4 class="header-title mt-0">Lihat Laporan Transaksi</h4> --}}
+                            @csrf
+                            <div class="form-group row mb-0">
+                                <label for="example-date-input" class="col-sm-3 col-form-label text-left">Lokasi</label>
+                                <label for="example-date-input" class="col-sm-3 col-form-label text-left">Produk</label>
+                                <label for="example-date-input" class="col-sm-3 col-form-label text-left">Bulan</label>
+                            </div>
+                            <div class="form-group row mt-0">
+
+                                <div class="col-sm-3">
+                                    <select class="form-control" name="lokasi">
+                                        <option value="All">All</option>
+                                        <option value="1">Pemalang</option>
+                                        <option value="2">Karanganyar - Kedungwuni</option>
+                                        <option value="3">Bojong - Sragi</option>
+                                        <option value="4">Doro</option>
+                                        <option value="5">Kesesi</option>
+                                        <option value="6">Paninggaran</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-sm-3">
+                                    <select class="select2 form-control mb-3 custom-select" id="produk" name="produk"
+                                        style="width: 100%; height:36px;">
+                                        <option selected value="All">All</option>
+                                        @foreach ($inventory as $iven)
+                                            <option value="{{ $iven->nama_barang }}">{{ $iven->nama_barang }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-sm-3">
+                                    <input type="month" class="form-control" name="bulan" id="bulan">
+                                </div>
+
+                                <div class="col-sm-2">
+                                    <button type="submit" class="btn btn-primary ml-0 align-items-md-end">Lihat</button>
+                                </div>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
         </div>
         <div class="col-lg-5 col-md-5 col-sm-12 mb-4">
             <div class="card">
@@ -172,8 +199,25 @@
 
 
     <script src="assets/plugins/moment/moment.js"></script>
-    <script src="assets/plugins/daterangepicker/daterangepicker.js"></script>
-    <script src="assets/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script>
-    <script src="assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
-    <script src="assets/pages/jquery.forms-advanced.js"></script>
+
+    <script src="/assets/plugins/repeater/jquery.repeater.min.js"></script>
+    <script src="/assets/pages/jquery.form-repeater.js"></script>
+    <script src="/assets/plugins/select2/select2.min.js"></script>
+
+    {{--  --}}
+    <script src="/assets/plugins/daterangepicker/daterangepicker.js"></script>
+    <script src="/assets/plugins/timepicker/tempusdominus-bootstrap-4.js"></script>
+    <script src="/assets/plugins/timepicker/bootstrap-material-datetimepicker.js"></script>
+    <script src="/assets/plugins/clockpicker/jquery-clockpicker.min.js"></script>
+    <script src="/assets/plugins/colorpicker/jquery-asColor.js"></script>
+    <script src="/assets/plugins/colorpicker/jquery-asGradient.js"></script>
+    <script src="/assets/plugins/colorpicker/jquery-asColorPicker.min.js"></script>
+    <script src="/assets/plugins/select2/select2.min.js"></script>
+
+    <script src="/assets/plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script>
+    <script src="/assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js"></script>
+    <script src="/assets/plugins/bootstrap-maxlength/bootstrap-maxlength.min.js"></script>
+    <script src="/assets/plugins/bootstrap-touchspin/js/jquery.bootstrap-touchspin.min.js"></script>
+
+    <script src="/assets/pages/jquery.forms-advanced.js"></script>
 @endpush

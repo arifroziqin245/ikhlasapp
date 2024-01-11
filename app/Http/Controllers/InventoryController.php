@@ -44,6 +44,7 @@ class InventoryController extends Controller
     }
 
     public function invenBoss(){
+        
         return view('bos.inventory', [
             'active' => 'inventoryb',
             'title' => "Inventorybgh",
@@ -68,13 +69,16 @@ class InventoryController extends Controller
 
     public function orderBoss()
     {
+        $today = date('Y-m-d', strtotime('+1 day'));
+        $to = date('Y-m-d', strtotime('-4 days'));
         return view('bos.order', [
             'active'=>'orderb',
             'title' => "Laporan Order",
             'lok' => date('d F Y', strtotime('-1 day')),
-            'order_all' => Order::where('status_order', 1)->get(),
-            'order' => Order::where('status_order', 0)->get(),
+            'order_all' => Order::where('status_order', 1)->whereBetween('created_at', [$to, $today])->orderBy('created_at', 'desc')->get(),
+            'order' => Order::where('status_order', 0)->whereBetween('created_at', [$to, $today])->orderBy('created_at', 'desc')->get(),
             'ord' => Order::all(),
+            'inventory' => Inventory::orderBy('nama_barang', 'ASC')->get(),
         ]);
     }
 

@@ -1,4 +1,7 @@
 @extends('layout.salesMain')
+@push('css')
+    <link href="/assets/plugins/select2/select2.min.css" rel="stylesheet" type="text/css" />
+@endpush
 @section('container')
     <div class="row">
 
@@ -63,8 +66,9 @@
                                     class="btn btn-primary waves-effect waves-light edit-{{ $c->id }}"
                                     data-id="{{ $c->id }}">Edit Row</button>
                                 <div class="tombol-{{ $c->id }}" style="display: none">
-                                    <button type="button" class="btn btn-secondary waves-effect neworder"
-                                        data-id="{{ $c->id }}" data-nama="{{ $c->nama_custs }}">New Row</button>
+                                    <a href="/to/{{ $c->id }}" class="btn btn-secondary waves-effect">New Order</a>
+                                    {{-- <button type="button" class="btn btn-secondary waves-effect neworder"
+                                        data-id="{{ $c->id }}" data-nama="{{ $c->nama_custs }}">New Row</button> --}}
                                     <button type="button"
                                         class="btn btn-success waves-effect waves-light cancel-{{ $c->id }}">Cancle</button>
                                 </div>
@@ -113,8 +117,7 @@
                         @csrf
                         <div class="form-group">
                             <label for="nambar">Nama Barang</label>
-                            <select class="select2 form-control mb-3 custom-select" id="barang"
-                                style="width: 100%; height:36px;">
+                            <select class="select2 form-control mb-3 custom-select" id="barang" style="width: 100%; height:36px;">
                                 <option>Select</option>
                                 @foreach ($inventory as $iven)
                                     <option value="{{ $iven->id }}">{{ $iven->nama_barang }} (
@@ -237,6 +240,8 @@
 @endsection
 
 @push('js')
+<script src="/assets/plugins/select2/select2.min.js"></script>
+<script src="/assets/plugins/select2/select2.min.js"></script>
     <script>
         $(document).on('change', '#barang', function(e) {
             var id = $(this).val();
@@ -258,14 +263,14 @@
             });
         })
 
-        $(document).on('click', '.editdata', function(e) {
-        var id = $(this).val();
-        console.log(id);
-        / $.ajax({
-        type: "post",
-            url: "{{ url('/el') }}/" + ,
-            success:
-        })
-        })
+        // $(document).on('click', '.editdata', function(e) {
+        // var id = $(this).val();
+        // console.log(id);
+        // $.ajax({
+        // type: "post",
+        //     url: "{{ url('/el') }}/" + ,
+        //     success:
+        // })
+        // })
     </script>
 @endpush

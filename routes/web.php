@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/',[InventoryController::class, 'index'])->middleware('auth');
+Route::get('/', [InventoryController::class, 'index'])->middleware('auth');
 
 Route::get('/change', [InventoryController::class, 'change']);
 
@@ -37,25 +37,29 @@ Route::get('/dashboard', function () {
     return view('index');
 });
 
-route::get('/inventory/category/tambah', function(){
-    return view('admin.categoryCreate',
-    [
-        'category' => Category::all()
-    ]);
+route::get('/inventory/category/tambah', function () {
+    return view(
+        'admin.categoryCreate',
+        [
+            'category' => Category::all()
+        ]
+    );
 });
 //route resource
-Route::resource('/inventory',InventoryController::class);
+Route::resource('/inventory', InventoryController::class);
 Route::get('/tambah', [InventoryController::class, 'tambah']);
 Route::delete('/hapusorder/{id}', [InventoryController::class, 'hapusOrder']);
 
-Route::resource('/category',CategoryController::class);
+Route::resource('/category', CategoryController::class);
 
 //route Sales
-Route::resource('/sales',SalesController::class)->middleware('auth');
+Route::resource('/sales', SalesController::class)->middleware('auth');
 Route::get('/sd', [SalesController::class, 'dashboard']);
 Route::get('/sl', [SalesController::class, 'list']);
 Route::get('/not', [SalesController::class, 'nota']);
 Route::get('/el', [SalesController::class, 'edit_order']);
+Route::get('/to/{id}', [SalesController::class, 'tambah_order']);
+
 Route::post('/sl-store', [SalesController::class, 'store_tambah']);
 route::get('getDetail/{id}', [SalesController::class, 'getDetail'])->name('getDetail');
 route::delete('/sales/{id}', [SalesController::class, 'destroy']);
@@ -65,6 +69,7 @@ Route::get('/invenBoss', [InventoryController::class, 'invenBoss']);
 Route::get('/orderBoss', [InventoryController::class, 'orderBoss']);
 route::get('/get_do/{id}', [BossController::class, 'getDetailORder']);
 route::post('/boss/laporan', [BossController::class, 'laporan']);
+route::post('/boss/laporan_penj', [BossController::class, 'laporan_penj']);
 
 // route create satuan
 Route::post('/satuan', [CategoryController::class, 'satuan']);
@@ -88,3 +93,5 @@ Route::post('/get_inventory', [InventoryController::class, 'json']);
 route::get('/login',  [AuthController::class, 'index'])->name('login');
 route::post('/authentication',  [AuthController::class, 'authenticate']);
 route::post('/logout',  [AuthController::class, 'logout']);
+
+route::get('/all_data', [BossController::class, 'allData']);

@@ -15,60 +15,73 @@
                 </div>
             @endif
             <div class="row">
-                <ul class="col container-filter categories-filter mb-0" id="filter">
+                <div class="button-items text-center">
+                    <button type="button" class="btn btn-primary waves-effect waves-light active">  ALL  </button>
+                    @foreach ($category as $item)
+                    <button type="button" class="btn btn-outline-primary waves-effect waves-light">{{ $item->nama_category }}</button>
+                    @endforeach
+                </div>
+                {{-- <ul class="col container-filter categories-filter mb-0" id="filter">
                     <li><a class="categories active" data-filter="*">All</a></li>
 
                     @foreach ($category as $iv)
                         <li><a class="categories" data-filter=".buku">{{ $iv->nama_category }}</a></li>
                     @endforeach
-                </ul>
+                </ul> --}}
             </div><!-- End portfolio  -->
         </div>
         <!--end card-body-->
     </div>
     <!--end card-->
 
-    <table id="datatable" class="table table-bordered dt-responsive nowrap"
-        style="border-collapse: collapse; border-spacing: 0; width: 100%;">
-        <thead>
-            <tr>
-                <th>Nama Barang</th>
-                <th>Harga Termurah</th>
-                {{-- <th>Satuan</th> --}}
-                <th>Category</th>
-                {{-- <th>Isi</th> --}}
-                <th>Harga Satuan</th>
-                <th>Action</th>
-            </tr>
-        </thead>
+    <div class="card">
+        <div class="card-body">
+            <table id="datatable" class="table table-bordered dt-responsive nowrap"
+                style="border-collapse: collapse; border-spacing: 0; width: 100%;">
+                <thead>
+                    <tr>
+                        <th>Nama Barang</th>
+                        <th>Harga Termurah</th>
+                        {{-- <th>Satuan</th> --}}
+                        <th>Category</th>
+                        {{-- <th>Isi</th> --}}
+                        <th>Harga Satuan</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
 
-        <tbody>
-            @foreach ($inventory as $iven)
-                <tr>
-                    <td>{{ $iven->nama_barang }}</td>
-                    <td>{{ $iven->harga }} / <span class="badge ">{{ $iven->satuan }} ({{ $iven->isi }})</span></td>
-                    {{-- <td>{{ $iven->satuan }}</td> --}}
-                    <td>{{ $iven->category }}</td>
-                    {{-- <td>{{ $iven->isi }}</td> --}}
-                    <td>{{ $iven->harga_satuan }}</td>
-                    <td>
-                        <div class="btn-group">
-                            <a href="inventory/{{ $iven->id }}" class="btn btn-outline-warning btn-sm"><i
-                                    class="far fa-eye"></i></a>
-                            <button type="button" class="btn btn-outline-info btn-sm editdata"
-                                value="{{ $iven->id }}"><i class="far fa-edit"></i></button>
-                            <form action="inventory/{{ $iven->id }}" method="post">
-                                @method('delete')
-                                @csrf
-                                <button class="btn btn-outline-danger btn-sm" onclick="return confirm('Are you sure?')"><i
-                                        class="far fa-trash-alt"></i></button>
-                            </form>
-                        </div>
-                    </td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
+                <tbody>
+                    @foreach ($inventory as $iven)
+                        <tr>
+                            <td>{{ $iven->nama_barang }}</td>
+                            <td>{{ $iven->harga }} / <span class="badge ">{{ $iven->satuan }} ({{ $iven->isi }})</span>
+                            </td>
+                            {{-- <td>{{ $iven->satuan }}</td> --}}
+                            <td>{{ $iven->category }}</td>
+                            {{-- <td>{{ $iven->isi }}</td> --}}
+                            <td>{{ $iven->harga_satuan }}</td>
+                            <td>
+                                <div class="btn-group">
+                                    <a href="inventory/{{ $iven->id }}" class="btn btn-outline-warning btn-sm"><i
+                                            class="far fa-eye"></i></a>
+                                    <button type="button" class="btn btn-outline-info btn-sm editdata"
+                                        value="{{ $iven->id }}"><i class="far fa-edit"></i></button>
+                                    <form action="inventory/{{ $iven->id }}" method="post">
+                                        @method('delete')
+                                        @csrf
+                                        <button class="btn btn-outline-danger btn-sm"
+                                            onclick="return confirm('Are you sure?')"><i
+                                                class="far fa-trash-alt"></i></button>
+                                    </form>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+
     <div class="col-md-6 col-lg-3">
 
         <!-- sample modal content -->
